@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Collection Tracker</title>
+  <meta name="description" content="A library-style shelf for books, vinyl, CDs, games and Blu-rays.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="types.js" defer></script>
+  <script src="vendor/zxing-wasm-reader.js" defer></script>
+  <script src="lookup.js" defer></script>
+  <script src="covers.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <p class="eyebrow"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5v11M5 2.5v11M8.5 3l3 10.3" /></svg> <span id="eyebrow">Personal collection</span></p>
+      <h1 id="title">Your collection</h1>
+      <p class="stats" id="stats"></p>
+    </header>
+
+    <div class="toolbar">
+      <div class="seg" role="group" aria-label="View">
+        <button type="button" data-view="shelf">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2.5v11M5 2.5v11M8.5 3l3 10.3" /></svg>Shelf
+        </button>
+        <button type="button" data-view="covers">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="5" height="8" rx=".8" /><rect x="9" y="3" width="5" height="8" rx=".8" /><path d="M1 13.5h14" /></svg>Covers
+        </button>
+        <button type="button" data-view="grid">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" rx="1" /><rect x="9" y="2" width="5" height="5" rx="1" /><rect x="2" y="9" width="5" height="5" rx="1" /><rect x="9" y="9" width="5" height="5" rx="1" /></svg>Grid
+        </button>
+      </div>
+
+      <label class="search">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3 3" /></svg>
+        <input id="search" type="search" placeholder="Search the collection" autocomplete="off" aria-label="Search the collection">
+        <kbd>/</kbd>
+      </label>
+
+      <label class="arrange">Arrange by <select id="arrange"></select></label>
+
+      <button type="button" class="btn primary" id="add-btn">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>Add item
+      </button>
+
+      <details class="menu" id="menu">
+        <summary class="btn icon" aria-label="More options">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3.5" cy="8" r="1" /><circle cx="8" cy="8" r="1" /><circle cx="12.5" cy="8" r="1" /></svg>
+        </summary>
+        <div class="menu-list">
+          <button type="button" id="export-btn">Export backup…</button>
+          <button type="button" id="import-btn">Import backup…</button>
+          <button type="button" id="fill-covers-btn">Find missing covers online</button>
+          <button type="button" id="folder-btn" hidden>Open data folder</button>
+          <button type="button" id="clear-sample" hidden>Remove sample items</button>
+        </div>
+      </details>
+    </div>
+
+    <nav class="chips" id="chips" aria-label="Filter"></nav>
+
+    <main id="content" aria-live="polite"></main>
+
+    <p class="footnote" id="footnote"></p>
+  </div>
+
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <dialog id="detail" class="sheet" aria-label="Item details"></dialog>
+  <dialog id="editor" class="sheet" aria-label="Edit item"><form id="editor-form" novalidate></form></dialog>
+  <dialog id="confirm" class="sheet small" aria-label="Confirm">
+    <div class="sheet-inner">
+      <div class="sheet-body"><p id="confirm-text"></p></div>
+      <footer class="sheet-foot">
+        <button type="button" class="btn" value="cancel">Cancel</button>
+        <button type="button" class="btn danger" value="ok" id="confirm-ok">OK</button>
+      </footer>
+    </div>
+  </dialog>
+</body>
+</html>
